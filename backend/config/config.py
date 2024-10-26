@@ -12,3 +12,4 @@ load_dotenv(dotenv_path=ENV_PATH)
 
 # Получаем URL базы данных из переменных окружения
 DATABASE_URL = os.getenv("DATABASE_URL")
+а
