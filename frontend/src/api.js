@@ -1,30 +1,62 @@
 // src/api.js
-const API_BASE_URL = "http://localhost:8000"; // Замените на реальный URL вашего API
+import axios from 'axios';
 
-async function apiRequest(path, method = 'GET', token = null, body = null) {
-    const headers = { "Content-Type": "application/json" };
-    if (token) headers["Authorization"] = `Bearer ${token}`;
-    
-    const options = { method, headers };
-    if (body) options.body = JSON.stringify(body);
+const API_BASE_URL = "http://84.252.135.231/api";
 
-    try {
-        const response = await fetch(`${API_BASE_URL}${path}`, options);
-        if (!response.ok) {
-            const errorData = await response.json();
-            throw new Error(errorData.detail || 'Ошибка запроса');
-        }
-        return await response.json();
-    } catch (error) {
-        console.error("API Request Error:", error);
-        throw error;
-    }
-}
+// Создание экземпляра axios
+const api = axios.create({
+    baseURL: API_BASE_URL,
+    timeout: 10000,
+});
 
-export const registerUser = (data) => apiRequest("/register", "POST", null, data);
-export const loginUser = (data) => apiRequest("/login", "POST", null, data);
-export const getAllTrains = (token) => apiRequest("/trains", "GET", token);
-export const getTrainWagons = (trainId, token) => apiRequest(`/train/${trainId}/wagons`, "GET", token);
-export const createOrder = (orderData, token) => apiRequest("/order", "POST", token, orderData);
-export const getQueueStatus = () => apiRequest("/queue", "GET");
-export const getOrderStatus = () => apiRequest("/order/status", "GET");
+// Регистрация пользователя
+export const registerUser = async (userData) => {
+    const response = await api.post("/register", userData);
+    return response.data;
+};
+
+// Вход пользователя для получения токена
+export const loginUser = async (authData) => {
+    const response = await api.post("/login", authData);
+    return response.data;
+};
+
+// Получение списка поездов
+export const getAllTrains = async (token) => {
+    const response = await api.get("/trains", {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    });
+    return response.data;
+};
+
+// Получение вагонов конкретного поезда
+export const getTrainWagons = async (trainId, token) => {
+    const response = await api.get(`/train/${trainId}/wagons`, {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    });
+    return response.data;
+};
+
+// Создание заказа
+export const createOrder = async (orderData, token) => {
+    const response = await api.post("/order", orderData, {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    });
+    return response.data;
+};
+
+// Получение статуса очереди заказов
+export const getOrderStatus = async (token) => {
+    const response = await api.get("/order/status", {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    });
+    return response.data;
+};

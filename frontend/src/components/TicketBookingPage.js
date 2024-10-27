@@ -80,6 +80,10 @@ function TicketBookingPage({ token }) {
                         <button className="bg-purple-700 px-6 py-3 rounded font-semibold hover:bg-purple-800 transition duration-200">
                             Найти билеты
                         </button>
+                        {/* Кнопка профиля */}
+                        <button className="bg-white text-orange-600 px-4 py-2 rounded-lg font-semibold hover:bg-gray-100 transition duration-200">
+                            Профиль
+                        </button>
                     </div>
                 </div>
             </header>
@@ -174,9 +178,8 @@ function TicketBookingPage({ token }) {
                                     <button
                                         key={wagon.id}
                                         onClick={() => setSelectedWagon(wagon.id)}
-                                        className={`p-3 rounded-lg ${
-                                            selectedWagon === wagon.id ? 'bg-green-500 text-white' : 'bg-gray-100'
-                                        } hover:bg-green-100`}
+                                        className={`p-3 rounded-lg ${selectedWagon === wagon.id ? 'bg-green-500 text-white' : 'bg-gray-100'
+                                            } hover:bg-green-100`}
                                     >
                                         Вагон {wagon.name} - {wagon.type}
                                     </button>
@@ -188,9 +191,8 @@ function TicketBookingPage({ token }) {
                                     <button
                                         key={index}
                                         onClick={() => toggleSeatSelection(index + 1)}
-                                        className={`p-2 rounded-lg ${
-                                            selectedSeats.includes(index + 1) ? 'bg-yellow-500 text-white' : 'bg-gray-200'
-                                        } hover:bg-yellow-100`}
+                                        className={`p-2 rounded-lg ${selectedSeats.includes(index + 1) ? 'bg-yellow-500 text-white' : 'bg-gray-200'
+                                            } hover:bg-yellow-100`}
                                     >
                                         Место {index + 1}
                                     </button>
